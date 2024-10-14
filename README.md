@@ -2,15 +2,12 @@
 
 | Column              | Type    | Options                     |
 |---------------------|---------|-----------------------------|
-| id (PK)             | integer | null: false, primary key    |
 | nickname            | string  | null: false                 |
 | email               | string  | null: false, unique: true   |
 | encrypted_password  | string  | null: false                 |
 | first_name          | string  | null: false                 |
 | last_name           | string  | null: false                 |
 | birthday            | date    | null: false                 |
-| created_at          | datetime| null: false, default: now() |
-| updated_at          | datetime| null: false, default: now() |
 
 ### Association
 - has_many :items
@@ -20,15 +17,12 @@
 
 | Column              | Type    | Options                      |
 |---------------------|---------|------------------------------|
-| id (PK)             | integer | null: false, primary key     |
 | name                | string  | null: false                  |
 | description         | text    | null: false                  |
 | category_id (FK)    | integer | null: false, foreign_key     |
 | condition_id (FK)   | integer | null: false, foreign_key     |
 | price               | integer | null: false                  |
 | user_id (FK)        | integer | null: false, foreign_key     |
-| created_at          | datetime| null: false, default: now()  |
-| updated_at          | datetime| null: false, default: now()  |
 
 ### Association
 - belongs_to :user
@@ -38,11 +32,8 @@
 
 | Column              | Type    | Options                      |
 |---------------------|---------|------------------------------|
-| id (PK)             | integer | null: false, primary key     |
 | item_id (FK)        | integer | null: false, foreign_key     |
 | user_id (FK)        | integer | null: false, foreign_key     |
-| created_at          | datetime| null: false, default: now()  |
-| updated_at          | datetime| null: false, default: now()  |
 
 ### Association
 - belongs_to :item
@@ -53,7 +44,6 @@
 
 | Column              | Type    | Options                      |
 |---------------------|---------|------------------------------|
-| id (PK)             | integer | null: false, primary key     |
 | postal_code         | string  | null: false                  |
 | prefecture_id (FK)  | integer | null: false, foreign_key     |
 | city                | string  | null: false                  |
@@ -61,8 +51,6 @@
 | building_name       | string  |                              |
 | phone_number        | string  | null: false                  |
 | purchase_id (FK)    | integer | null: false, foreign_key     |
-| created_at          | datetime| null: false, default: now()  |
-| updated_at          | datetime| null: false, default: now()  |
 
 ### Association
 - belongs_to :purchase
