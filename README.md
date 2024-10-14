@@ -11,6 +11,10 @@
 | last_name_kana     | string  | null: false               |
 | birth_date         | date    | null: false               |
 
+### Association
+- has_many :items
+- has_many :purchases
+
 ## Items テーブル
 
 | Column             | Type       | Options                        |
@@ -23,14 +27,23 @@
 | prefecture_id      | integer    | null: false                    |
 | delivery_time_id   | integer    | null: false                    |
 | price              | integer    | null: false                    |
-| user_id            | references | null: false                    |
+| user_id            | references | null: false, foreign_key: true |
+
+### Association
+- belongs_to :user
+- has_one :purchase
 
 ## Purchases テーブル
 
 | Column  | Type       | Options                        |
 |---------|------------|--------------------------------|
-| user_id | references | null: false                    |
-| item_id | references | null: false                    |
+| user_id | references | null: false, foreign_key: true |
+| item_id | references | null: false, foreign_key: true |
+
+### Association
+- belongs_to :user
+- belongs_to :item
+- has_one :shipping_address
 
 ## Shipping_addresses テーブル
 
@@ -42,4 +55,7 @@
 | address       | string     | null: false                    |
 | building_name | string     |                                |
 | phone_number  | string     | null: false                    |
-| purchase_id   | references | null: false                    |
+| purchase_id   | references | null: false, foreign_key: true |
+
+### Association
+- belongs_to :purchase
