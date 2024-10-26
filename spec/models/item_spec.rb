@@ -65,7 +65,7 @@ RSpec.describe Item, type: :model do
       it 'priceが整数でないとき出品できない' do
         @item.price = 5000.5
         @item.valid?
-        expect(item.errors.full_messages).to include 'Price must be an integer'
+        expect(@item.errors.full_messages).to include 'Price must be an integer'
       end
       it 'priceが300未満では出品できない' do
         @item.price = 299
