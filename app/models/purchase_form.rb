@@ -12,4 +12,18 @@ class PurchaseForm
     validates :phone_number, format: { with: /\A[0-9]{10,11}\z/, message: 'must be 10 or 11 digits long' }
   end
   validates :prefecture_id, numericality: { other_than: 0, message: "can't be blank" }
+
+  def save
+    purchase = Purchase.create(user_id:, item_id:)
+
+    ShippingAddress.create(
+      postal_code:,
+      prefecture_id:,
+      city:,
+      address:,
+      building_name:,
+      phone_number:,
+      purchase_id: purchase.id
+    )
+  end
 end
