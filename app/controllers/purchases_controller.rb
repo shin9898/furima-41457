@@ -1,7 +1,7 @@
 class PurchasesController < ApplicationController
-  before_action :authenticate_user!, except: :index
+  before_action :authenticate_user!, only: [:index, :new, :create]
+  before_action :set_item, only: [:index, :create]
   def index
-    @item = Item.find(params[:item_id])
     @purchase_form = PurchaseForm.new
   end
 
@@ -15,11 +15,15 @@ class PurchasesController < ApplicationController
       @purchase_form.save
       redirect_to root_path
     else
-      render :new, status: :unprocessable_entity
+      render :index, status: :unprocessable_entity
     end
   end
 
   private
+
+  def set_item
+    @item = Item.find(params[:item_id])
+  end
 
   def purchase_params
     params.require(:purchase_form).permit(:postal_code, :prefecture_id, :city, :address, :building_name,
