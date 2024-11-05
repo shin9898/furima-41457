@@ -81,6 +81,12 @@ RSpec.describe PurchaseForm, type: :model do
         expect(@purchase_form.errors.full_messages).to include 'Phone number must be 10 or 11 digits long'
       end
 
+      it 'phone_numberが9桁以下のとき' do
+        @purchase_form.phone_number = '123456789'
+        @purchase_form.valid?
+        expect(@purchase_form.errors.full_messages).to include 'Phone number must be 10 or 11 digits long'
+      end
+
       it 'phone_number半角数値以外の入力があるとき' do
         @purchase_form.phone_number = '090-1234-5678'
         @purchase_form.valid?
