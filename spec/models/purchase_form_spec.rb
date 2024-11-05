@@ -2,14 +2,15 @@ require 'rails_helper'
 
 RSpec.describe PurchaseForm, type: :model do
   before do
-    user = FactoryBot.create(:user)
-    item = FactoryBot.create(:item)
-    @purchase_form = FactoryBot.build(:purchase_form, user_id: user.id, item_id: item.id)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item)
+    @purchase_form = FactoryBot.build(:purchase_form, user_id: @user.id, item_id: @item.id)
+    sleep(0.1)
   end
 
   describe '商品購入情報の保存' do
     context '内容に問題がないとき' do
-      it '全ての値が正しく入力されていれば保存できること' do
+      it '全ての値が正しく入力され、tokenがあれば保存できること' do
         expect(@purchase_form).to be_valid
       end
 
@@ -32,6 +33,12 @@ RSpec.describe PurchaseForm, type: :model do
         expect(@purchase_form.errors.full_messages).to include "Item can't be blank"
       end
 
+      it 'tokenが空のとき' do
+        @purchase_form.token = nil
+        @purchase_form.valid?
+        expect(@purchase_form.errors.full_messages).to include "Token can't be blank"
+      end
+
       it 'postal_codeが空のとき' do
         @purchase_form.postal_code = ''
         @purchase_form.valid?
@@ -47,7 +54,6 @@ RSpec.describe PurchaseForm, type: :model do
       it 'postal_codeが全角文字列のとき' do
         @purchase_form.postal_code = '１２３ー４５６７'
         @purchase_form.valid?
-        binding.pry
         expect(@purchase_form.errors.full_messages).to include 'Postal code is invalid. Include hyphen(-)'
       end
 
@@ -72,13 +78,13 @@ RSpec.describe PurchaseForm, type: :model do
       it 'phone_numberが12桁以上のとき' do
         @purchase_form.phone_number = '012345678910'
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include 'must be 10 or 11 digits long'
+        expect(@purchase_form.errors.full_messages).to include 'Phone number must be 10 or 11 digits long'
       end
 
       it 'phone_number半角数値以外の入力があるとき' do
         @purchase_form.phone_number = '090-1234-5678'
         @purchase_form.valid?
-        expect(@purchase_form.errors.full_messages).to include 'must be 10 or 11 digits long'
+        expect(@purchase_form.errors.full_messages).to include 'Phone number must be 10 or 11 digits long'
       end
 
       it 'prefecture_idが1のとき' do
